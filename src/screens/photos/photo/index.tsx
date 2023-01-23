@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
 import { IPhoto } from "type";
@@ -23,6 +23,7 @@ export const Photo = memo(({ photo }: IProps): JSX.Element => {
         style={IMAGE}
         source={{ uri: url }}
         resizeMode={FastImage.resizeMode.contain}
+        fallback={Platform.OS === 'android'}
       />
       <Text style={TITLE}>{title}</Text>
       <Text style={ALBUM_ID}>Album id: {albumId}</Text>

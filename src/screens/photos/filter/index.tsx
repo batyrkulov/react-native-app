@@ -1,21 +1,23 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import DropDownPicker, { ItemType } from "react-native-dropdown-picker";
+import { ItemType } from "react-native-dropdown-picker";
+import { MultiSelect } from "react-native-element-dropdown";
 
 import { IPhoto } from "type";
+import { color } from "theme";
 
 import {
-  ARROW_ICON,
   CONTAINER,
   DROPDOWN_CONTAINER,
   LIST_ITEM_CONTAINER,
   LIST_ITEM_LABEL,
-  PICKER, PICKER_CONTAINER,
+  PICKER,
+  PICKER_FLAT_LIST,
   PLACEHOLDER,
   RESET,
   RESET_TEXT,
-  TEXT,
-  TICK_ICON,
+  ICON,
+  SELECTED,
 } from "./style";
 
 interface IProps {
@@ -27,7 +29,6 @@ interface IProps {
 export const Filter = ({ photos, albumIDs, setAlbumIDs }: IProps): JSX.Element => {
 
   const [items, setItems] = useState<ItemType<number>[]>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const uniqueAlbumIDs: number[] = [...new Set(photos.map(photo => photo.albumId))];
@@ -41,31 +42,32 @@ export const Filter = ({ photos, albumIDs, setAlbumIDs }: IProps): JSX.Element =
 
   return (
     <View style={CONTAINER}>
-      <DropDownPicker
-        multiple={true}
-        items={items}
-        open={isOpen}
-        value={albumIDs}
-        setOpen={setIsOpen}
-        setValue={setAlbumIDs}
-        setItems={setItems}
-        containerStyle={PICKER_CONTAINER}
-        placeholder='Filter by album ID'
-        style={PICKER}
-        placeholderStyle={PLACEHOLDER}
-        arrowIconStyle={ARROW_ICON}
-        dropDownContainerStyle={DROPDOWN_CONTAINER}
-        listItemLabelStyle={LIST_ITEM_LABEL}
-        listItemContainerStyle={LIST_ITEM_CONTAINER}
-        textStyle={TEXT}
-        tickIconStyle={TICK_ICON}
-      />
       <TouchableOpacity
         style={RESET}
         onPress={resetFilter}
       >
         <Text style={RESET_TEXT}>Reset filter</Text>
       </TouchableOpacity>
+      <MultiSelect
+        style={PICKER}
+        placeholderStyle={PLACEHOLDER}
+        itemTextStyle={LIST_ITEM_LABEL}
+        iconStyle={ICON}
+        iconColor={color.palette.white}
+        itemContainerStyle={LIST_ITEM_CONTAINER}
+        flatListProps={{ style: PICKER_FLAT_LIST, initialNumToRender: 100, }}
+        containerStyle={DROPDOWN_CONTAINER}
+        selectedStyle={SELECTED}
+        activeColor={color.palette.middleBlue}
+        data={items}
+        labelField="label"
+        valueField="value"
+        placeholder='Filter by album ID'
+        value={albumIDs}
+        onChange={item => {
+          setAlbumIDs([...item]);
+        }}
+      />
     </View>
   )
 };

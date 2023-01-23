@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Platform } from 'react-native';
 
 import { Home, Photos } from 'screens';
 import { color } from 'theme';
@@ -16,6 +17,7 @@ const BottomTabs = (): JSX.Element => {
         headerShown: false,
         tabBarStyle: TAB_BAR,
         tabBarActiveTintColor: color.palette.white,
+        ...Platform.OS === 'android' && { tabBarIcon: () => undefined }
       }}
       initialRouteName={BottomTabsRoutes.Home}
     >

@@ -2,7 +2,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, FlatList, Text, TouchableOpacity } from "react-native";
 import { MaterialIndicator } from "react-native-indicators";
-import { StackNavigationProp } from '@react-navigation/stack'
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppRoutes, IPhoto, NavigatorParamList } from "type";
@@ -22,7 +22,6 @@ export const Photos = (): JSX.Element => {
   const navigation = useNavigation<StackNavigationProp<NavigatorParamList, AppRoutes.BottomTabs>>();
   const dispatch = useDispatch();
   const isScreenFocused: boolean = useIsFocused();
-
   const userName = useSelector(userSelector.name);
 
   const loadPhotos = async () => {

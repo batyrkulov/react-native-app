@@ -12,27 +12,28 @@ export const CONTAINER: ViewStyle = {
   alignItems: 'center',
 };
 
-export const PICKER_CONTAINER: ViewStyle = {
-  width: size,
-};
-
 export const PICKER: ViewStyle = {
   backgroundColor: color.secondary,
   borderWidth: 0,
+  width: size,
+  height: 50,
+  paddingHorizontal: 15,
+  borderRadius: 10,
+};
+
+export const PICKER_FLAT_LIST: ViewStyle = {
+  backgroundColor: color.secondary,
 };
 
 export const PLACEHOLDER: TextStyle = {
   color: color.palette.white,
 };
 
-export const ARROW_ICON: ImageStyle = {
-  tintColor: color.palette.white,
-};
-
 export const DROPDOWN_CONTAINER: ViewStyle = {
   backgroundColor: color.secondary,
   borderWidth: 0,
   paddingHorizontal: 15,
+  borderRadius: 9,
 };
 
 export const LIST_ITEM_LABEL: TextStyle = {
@@ -44,18 +45,22 @@ export const LIST_ITEM_CONTAINER: ViewStyle = {
   borderBottomColor: color.palette.grey,
 };
 
-export const TEXT: TextStyle = {
-  color: color.palette.white,
+export const SELECTED: ViewStyle = {
+  display: 'none',
 };
 
-export const TICK_ICON: ImageStyle = {
+export const ICON: ImageStyle = {
   tintColor: color.palette.white,
+  width: 20,
+  height: 20,
 };
+
 
 export const RESET: ViewStyle = {
   alignSelf: 'flex-end',
   paddingRight: 25,
-  marginTop: 3,
+  position: 'absolute',
+  top: 55,
 };
 
 export const RESET_TEXT: TextStyle = {
