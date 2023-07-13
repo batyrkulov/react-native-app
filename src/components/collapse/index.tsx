@@ -24,6 +24,10 @@ export const Collapse = memo(({
     flatten([titlePresets[preset] || titlePresets.primary]),
   );
 
+  const identity = <Type,>(arg: Type): Type => {
+    return arg;
+  }
+
   return (
     <View style={style}>
       <CollapseLib>
