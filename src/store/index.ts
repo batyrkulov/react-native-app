@@ -34,6 +34,8 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
+export * from './list-slice';
 export * from './user-slice';
 export * from './root-reducer';
+export * from './list-selector';
 export * from './user-selector';

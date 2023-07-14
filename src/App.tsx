@@ -11,17 +11,21 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { persistor, store } from './store';
 import RootNavigator from './navigation';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { styles } from './style';
 
 function App(): JSX.Element {
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={styles.container}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={null}>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 

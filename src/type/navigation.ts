@@ -2,7 +2,6 @@ import { NavigatorScreenParams } from "@react-navigation/native"
 
 export type BottomNavigatorParamList = {
   Home: undefined;
-  Photos: undefined;
 };
 
 export type NavigatorParamList = {
@@ -17,5 +16,4 @@ export enum AppRoutes {
 
 export enum BottomTabsRoutes {
   Home = "Home",
-  Photos = "Photos",
 };

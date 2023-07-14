@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Platform } from 'react-native';
 
-import { Home, Photos } from 'screens';
+import { Home } from 'screens';
 import { color } from 'theme';
 import { BottomNavigatorParamList, BottomTabsRoutes } from 'type';
 
-import { TAB_BAR } from './style';
+import { styles } from './style';
 
 const BottomTabs = (): JSX.Element => {
 
@@ -15,14 +15,13 @@ const BottomTabs = (): JSX.Element => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: TAB_BAR,
+        tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: color.palette.white,
         ...Platform.OS === 'android' && { tabBarIcon: () => undefined }
       }}
       initialRouteName={BottomTabsRoutes.Home}
     >
       <Tab.Screen name={BottomTabsRoutes.Home} component={Home} />
-      <Tab.Screen name={BottomTabsRoutes.Photos} component={Photos} />
     </Tab.Navigator>
   );
 };

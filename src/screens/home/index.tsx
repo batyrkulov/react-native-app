@@ -1,47 +1,85 @@
-import { useEffect, useState } from "react";
-import { Alert, FlatList, Text, View } from "react-native";
-import { MaterialIndicator } from "react-native-indicators";
+import { useCallback, useEffect, useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-import { getUserCards } from "api";
 import { Screen } from "components";
-import { IUserCard } from "type";
-import { color } from "theme";
+import { AppRoutes, IListItem, NavigatorParamList } from "type";
+import { listSelector, removeListItem, setList, setUser, userSelector } from 'store';
 
-import { FLAT_LIST } from "./style";
-import { UserCard } from "./user-card";
+import { TodoCard } from "./todo-card";
+import { styles } from "./style";
+import { AddTodo } from "./add-todo";
 
 export const Home = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation<StackNavigationProp<NavigatorParamList, AppRoutes.BottomTabs>>();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [editingTodoId, setEditingTodoId] = useState<number>(0);
 
-  const [users, setUsers] = useState<IUserCard[]>([]);
-
-  const loadUsers = async () => {
-    try {
-      const loadedUsers: IUserCard[] = await getUserCards();
-      setUsers(loadedUsers);
-    } catch (err) {
-      Alert.alert(err as string);
-    }
-  }
+  const userId: number = useSelector(userSelector.id);
+  const currentUserList: IListItem[] = useSelector(listSelector.currentUserList);
 
   useEffect(() => {
-    loadUsers();
-  }, []);
+    if (!userId) navigation.navigate(AppRoutes.Signin);
+  }, [userId]);
+
+  useEffect(() => {
+    if (editingTodoId) setIsModalVisible(true);
+  }, [editingTodoId]);
+
+  useEffect(() => {
+    if (!isModalVisible && editingTodoId) setEditingTodoId(0);
+    ;
+  }, [isModalVisible]);
+
+  const logout = useCallback(() => {
+    dispatch(setUser({ id: 0 }));
+  }, [dispatch, setUser]);
+
+  const onRemoveTodo = useCallback((id: number) => {
+    dispatch(removeListItem(id));
+  }, [dispatch, removeListItem]);
+
+  const toggleModal = useCallback(() => {
+    setIsModalVisible(!isModalVisible);
+  }, [isModalVisible, setIsModalVisible]);
+
+  const onSetEditingTodoId = useCallback((id: number) => {
+    setEditingTodoId(id);
+  }, [setEditingTodoId]);
 
   return (
     <Screen>
-      {!users.length &&
-        <MaterialIndicator
-          color={color.primary}
-          size={40}
-          count={40}
-        />
-      }
-      <FlatList
-        ListHeaderComponent={<View style={FLAT_LIST} />}
-        data={users}
-        renderItem={({ item }) => <UserCard user={item} />}
+      <View style={styles.topButtonsContainer}>
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <Text style={styles.addTodoText}>Add todo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={logout}>
+          <Text style={styles.logoutText}>Logout from User{userId}</Text>
+        </TouchableOpacity>
+      </View>
+      <DraggableFlatList
+        data={currentUserList}
+        renderItem={({ item, drag, isActive }) => (
+          <TodoCard
+            drag={drag}
+            isActive={isActive}
+            todo={item}
+            setEditingTodoId={onSetEditingTodoId}
+            onRemoveTodo={onRemoveTodo}
+          />
+        )}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item: IUserCard) => item.id.toString()}
+        keyExtractor={(item: IListItem) => item.id.toString()}
+        onDragEnd={({ data }) => dispatch(setList(data))}
+      />
+      <AddTodo
+        visible={isModalVisible}
+        toggleModal={toggleModal}
+        editingTodoId={editingTodoId}
       />
     </Screen>
   );

@@ -3,7 +3,7 @@ import { Alert, Image, Text, TextInput, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import { Screen } from "components";
@@ -11,22 +11,14 @@ import { color } from "theme";
 import { setUser, userSelector } from "store";
 import { NavigatorParamList, AppRoutes, FormValues, BottomTabsRoutes } from "type";
 
-import {
-  BUTTON,
-  BUTTON_TEXT,
-  BUTTON_WRAPPER,
-  CONTAINER, ERROR,
-  GO2MAIN,
-  GO2MAIN_TEXT,
-  INPUT,
-} from "./style";
+import { styles } from "./style";
 
 const personImage = require('assets/person.png');
 
 export const Signin = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigation = useNavigation<StackNavigationProp<NavigatorParamList, AppRoutes.Signin>>();
-  const userName = useSelector(userSelector.name);
+  const userId = useSelector(userSelector.id);
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
@@ -36,23 +28,23 @@ export const Signin = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = ({ login, password }) => {
-    if (login.toLowerCase() === 'admin' && password.toLowerCase() === 'admin') {
+    if (login.toLowerCase() === 'user1' && password.toLowerCase() === 'user1pass') {
       dispatch(setUser({
-        name: 'Admin',
+        id: 1,
+      }));
+    } else if (login.toLowerCase() === 'user2' && password.toLowerCase() === 'user2pass') {
+      dispatch(setUser({
+        id: 2,
       }));
     } else Alert.alert('Wrong login or password');
   };
 
-  const go2main = useCallback(() => navigation.navigate(
-    AppRoutes.BottomTabs, { screen: BottomTabsRoutes.Home }
-  ), [navigation]);
-
   useEffect(() => {
-    if (userName) navigation.navigate(AppRoutes.BottomTabs, { screen: BottomTabsRoutes.Photos });
-  }, [userName]);
+    if (userId) navigation.navigate(AppRoutes.BottomTabs, { screen: BottomTabsRoutes.Home });
+  }, [userId]);
 
   return (
-    <Screen style={CONTAINER}>
+    <Screen style={styles.container}>
       <Controller
         control={control}
         rules={{
@@ -60,7 +52,7 @@ export const Signin = (): JSX.Element => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={INPUT}
+            style={styles.input}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -70,7 +62,7 @@ export const Signin = (): JSX.Element => {
         )}
         name="login"
       />
-      {errors.login && <Text style={ERROR} >Login is required.</Text>}
+      {errors.login && <Text style={styles.error} >Login is required.</Text>}
       <Controller
         control={control}
         rules={{
@@ -78,7 +70,7 @@ export const Signin = (): JSX.Element => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={INPUT}
+            style={styles.input}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -88,20 +80,17 @@ export const Signin = (): JSX.Element => {
         )}
         name="password"
       />
-      {errors.password && <Text style={ERROR} >Password is required.</Text>}
+      {errors.password && <Text style={styles.error} >Password is required.</Text>}
       <LinearGradient
         colors={[color.palette.white, color.primary,]}
-        style={BUTTON_WRAPPER}
+        style={styles.buttonWrapper}
         start={{ x: 2, y: 0 }}
       >
-        <TouchableOpacity style={BUTTON} onPress={handleSubmit(onSubmit)}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
           <Image source={personImage} alt='Person' />
-          <Text style={BUTTON_TEXT}>Log In</Text>
+          <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
       </LinearGradient>
-      <TouchableOpacity style={GO2MAIN} onPress={go2main}>
-        <Text style={GO2MAIN_TEXT}>Go to main</Text>
-      </TouchableOpacity>
     </Screen>
   );
 }

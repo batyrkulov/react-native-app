@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUserReducerState } from "type";
 
 const initialState: IUserReducerState = {
-  name: '',
+  id: 0,
 };
 
 const userSlice = createSlice({
@@ -11,7 +11,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, { payload }: PayloadAction<IUserReducerState>) {
-      state.name = payload.name
+      state.id = payload.id
     },
   },
   extraReducers: (builder) => {
