@@ -1,2 +1,2 @@
-export * from './signin';
+export * from './post';
 export * from './home';

@@ -1,7 +1,6 @@
 export * from './navigation';
 export * from './store';
 
-export type FormValues = {
-  login: string;
-  password: string;
-};
+export interface ICommonCreateAsyncThunkThirdType {
+  rejectValue: string
+}

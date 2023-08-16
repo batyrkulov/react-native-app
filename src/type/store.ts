@@ -1,15 +1,26 @@
 export interface IListItem {
   id: number;
-  authorId: number;
   title: string;
-  desc: string;
-  modificatedAt: number;
+  body: string;
+};
+export interface IComment {
+  id: number;
+  body: string;
+  postId: number;
 };
 
 export interface IListReducerState {
   list: IListItem[];
-};
-export interface IUserReducerState {
-  id: number;
+  comments: IComment[];
+  loadings: {
+    isLoadPostsLoading: boolean;
+    isLoadCommentsLoading: boolean;
+    isCreatePostLoading: boolean;
+    isCreateCommentLoading: boolean;
+    isUpdatePostLoading: boolean;
+    isUpdateCommentLoading: boolean;
+    isDeletePostLoading: boolean;
+    isDeleteCommentLoading: boolean;
+  }
 };
 

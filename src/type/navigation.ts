@@ -1,19 +1,15 @@
-import { NavigatorScreenParams } from "@react-navigation/native"
-
-export type BottomNavigatorParamList = {
-  Home: undefined;
-};
+import { RouteProp } from "@react-navigation/native";
+import { IListItem } from "./store";
 
 export type NavigatorParamList = {
-  BottomTabs: NavigatorScreenParams<BottomNavigatorParamList>;
-  Signin: undefined;
+  Home: undefined;
+  Post: { postId: number };
 };
 
 export enum AppRoutes {
-  BottomTabs = "BottomTabs",
-  Signin = "Signin"
+  Home = "Home",
+  Post = "Post"
 };
 
-export enum BottomTabsRoutes {
-  Home = "Home",
-};
+export type StackRouteProps<RouteName extends keyof NavigatorParamList> =
+  RouteProp<NavigatorParamList, RouteName>

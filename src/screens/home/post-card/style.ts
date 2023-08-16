@@ -19,6 +19,11 @@ export const styles = StyleSheet.create({
     color: color.palette.white,
     fontSize: 18,
     fontWeight: '700',
+    marginRight: 8,
+  },
+  desc: {
+    color: color.palette.white,
+    minHeight: 60,
   },
   infoBlock: {
     padding: 6,
@@ -26,10 +31,16 @@ export const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
   },
-  label: {
-    color: color.placeholder,
-    fontSize: 14,
-    marginRight: 4,
+  buttons: {
+    color: 'white',
+    marginVertical: 3,
+  },
+  border: {
+    borderWidth: 1,
+    borderColor: 'white',
+    flex: 1,
+    paddingLeft: 11,
+    borderRadius: 5,
   }
 })
 
